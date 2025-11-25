@@ -6,8 +6,7 @@ authors:
 
 # Gender Equality in Speed Dating
 
-Typically, during speed dating, boys move from table to table, while girls sit 
-in one place. Is this fair? Maybe. But let's consider a problem of organizing 
+Typically, during speed dating, boys move from table to table, while girls sit. Is this fair? Maybe. But let's consider a problem of organizing 
 "equal rights" speed dating, in which each participant can interact with any 
 other participant of the opposite gender and visit every table. This article 
 explains how to organize such speed dating and how the CP-Sat solver can be 
