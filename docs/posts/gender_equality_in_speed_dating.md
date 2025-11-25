@@ -124,7 +124,7 @@ def solve(n: int):
     solver = cp_model.CpSolver()
     status = solver.solve(model)
     print(solver.status_name(status))
-````
+```
 
 The code above is quite simple. The only non-trivial part is the use of the 
 auxiliary binary variable `b` in each equation of the form `x - i == y - n * b`. 
