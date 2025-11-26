@@ -17,13 +17,13 @@ recommended for practical use.
 
 <!-- more -->
 
-A moment comes in almost every man's life when he decides it is time to get married.
+Almost every man has a moment when he decides it's time to get married.
 
 <figure markdown="span">
   ![It's time to get married](../assets/gender_equality_in_speed_dating/now_meme.jpg)
 </figure>
 
-Those who already have a girlfriend are lucky. Those who don't have it have a harder time. One way to meet a girl is to go speed dating. These dates proceed as follows: \(n\) boys and \(n\) girls meet at cafe in the evening. The tables in the cafe are numbered from \(1\) to \(n.\) Each girl chooses a table and sits at it the whole evening. Different girls sit at different tables. At the beginning of the evening, the boys randomly sit at the tables. Of course, different boys sit at different tables. The dating consists of \(n\) rounds, each lasting 5 minutes. At the end of each round, every boy moves to the table with the number one greater than the current one (the boy sitting at table \(n\) moves to table \(1\)). After all the rounds, each boy and each girl will get to know each other. Each participant then fills out a questionnaire indicating which participant of 
+Those who already have a girlfriend are lucky. Those who don't have it have a harder time. One way to meet a girl is to go speed dating. These dates proceed as follows: \(n\) boys and \(n\) girls meet at a cafe in the evening. The tables in the cafe are numbered from \(1\) to \(n.\) Each girl chooses a table and sits at it the whole evening. Different girls sit at different tables. At the beginning of the evening, the boys randomly sit at the tables. Of course, different boys sit at different tables. The dating consists of \(n\) rounds, each lasting 5 minutes. At the end of each round, every boy moves to the table with the number one greater than the current one (the boy sitting at table \(n\) moves to table \(1\)). After \(n\) rounds, all the boys and girls will get to know each other. Then each participant fills out a questionnaire indicating which participant of 
 the opposite gender they found attractive. In the case of mutual interest, the 
 boy and the girl receive each other's contact information.
 
@@ -47,21 +47,21 @@ The situation described in the problem is very similar to speed dating, so let's
 solve this problem. Assume that for a given \(n,\) the numbers can be written on 
 the tables as required in the problem. Let's consider the initial seating 
 arrangement of the boys and girls at the tables. Choose an arbitrary table. Let 
-the boy and girl sitting there be \(B_{0}\) and \(G_{0},\) respectively. Let 
-\(T_{1}, T_{2}, \ldots, T_{n-1}\) be the tables that boy \(B_{0}\) sequentially 
+the boy and girl sitting there be \(B_{0}\) and \(G_{0},\) respectively. By 
+\(T_{1}, T_{2}, \ldots, T_{n-1}\) we denote the tables that boy \(B_{0}\) sequentially 
 visits after table \(T_{0}.\) Finally, for each \(i\) from 1 to \(n-1,\) let 
-\(B_{i}\) and \(G_{i}\) be the boy and girl who initially sat at table \(T_{i},\) 
+\(B_{i}\) and \(G_{i}\) be the boy and girl who initially sit at table \(T_{i},\) 
 respectively. Thus, for any \(i\) from \(0\) to \(n-1\) and any \(j\) from \(0\) 
 to \(n-1,\) boy \(B_{i}\) will be sitting at table \(T_{(i+j)\%n}\) during round 
 \(j,\) where \(m\% n\) means the remainder when dividing \(m\) by \(n.\) To 
 simplify the notation, we will number the boys, girls, and tables modulo \(n,\) 
 and in particular, we will write \(T_{i+j}\) instead of \(T_{(i+j)\%n}.\)
 
-Before continuing the solution to **Problem 1** in its general form, let's 
-consider a few specific cases. These cases will allow us to become familiar with
-the introduced notation. For \(n=2,\) the desired way of moving does not 
-exist. Indeed, after round 0, boy \(B_{0}\) and girl \(G_{0}\) must move to 
-table \(T_{1},\) meaning they will meet again.
+Before continuing the solution to **Problem 1**, let's 
+consider some examples. These examples will allow us to get used to the 
+introduced notations. For \(n=2,\) the desired way of writing the numbers does 
+not exist. Indeed, after round 0, boy \(B_{0}\) and girl \(G_{0}\) 
+must move to table \(T_{1},\) so they will meet again there.
 
 **Round 0:**
 
@@ -71,7 +71,7 @@ table \(T_{1},\) meaning they will meet again.
 
 ![Round 1](../assets/gender_equality_in_speed_dating/n2_2.png){ width="500" }
 
-However, for \(n=3,\) the desired way of moving does exist.
+However, for \(n=3,\) the desired way of moving participants exists.
 
 **Round 0:**
 
@@ -102,7 +102,7 @@ system modulo \(n.\) Thus, **Problem 1** is reduced to the following problem.
 
 **Problem 2.** *Find all natural numbers \(n\) for which there exists a 
 permutation \(x_{0}, x_{1}, \ldots, x_{n-1}\) of the numbers \(0, 1, \ldots, n-1\) 
-such that the numbers \(x_{0}-0, x_{1} - 1, \ldots, x_{n-1} - (n-1)\) form a 
+such that \(x_{0}=0\) and the numbers \(x_{0}-0, x_{1} - 1, \ldots, x_{n-1} - (n-1)\) form a 
 complete residue system modulo \(n.\)*
 
 Before solving **Problem 2**, let's use the CP-Sat solver to check if the 
@@ -115,6 +115,7 @@ from ortools.sat.python import cp_model
 def solve(n: int):
     model = cp_model.CpModel()
     xs = [model.new_int_var(0, n - 1, '') for _ in range(n)]
+    model.add(xs[0] == 0)
     model.add_all_different(xs)
     ys = [model.new_int_var(0, n - 1, '') for _ in range(n)]
     model.add_all_different(ys)
@@ -128,11 +129,11 @@ def solve(n: int):
 
 The code above is quite simple. The only non-trivial part is the use of the 
 auxiliary binary variable `b` in each equation of the form `x - i == y - n * b`. 
-This trick allowed us to use the built-in `all_different` constraint for the 
-array of variables `ys`.
+This trick allows us to use the built-in `all_different` constraint for the 
+array `ys`.
 
 Calling the function `solve` for \(n\) from \(1\) to \(10,\) we find that the 
-desired permutation of numbers exists only for odd \(n.\) This suggests that the 
+desired permutation of numbers exists only for odd \(n.\) This hints that the 
 answer to **Problem 2** is the set of all odd numbers. Let's prove the 
 formulated hypothesis. Consider the sum
 
@@ -141,14 +142,14 @@ s = (x_{0}-0)+(x_{1} - 1)+\ldots+\bigl(x_{n-1} - (n-1)\bigr).
 \]
 
 Since \(x_{0}, x_{1}, \ldots, x_{n-1}\) is a permutation of the numbers from 
-\(0\) to \(n-1,\), it follows that
+\(0\) to \(n-1,\) it follows that
 
 \[
 s=x_{0}+x_{1}+\ldots+x_{n-1}-(0+1+\ldots+n-1) = 0.
 \]
 
 Since the numbers \(x_{0}-0, x_{1} - 1, \ldots, x_{n-1} - (n-1)\) form a 
-complete residue system modulo \(n,\), it follows that
+complete residue system modulo \(n,\) it follows that
 
 \[
 s\equiv 0+1+\ldots+n-1=\dfrac{n(n-1)}{2}\;(\mathrm{mod}\, n).
@@ -161,8 +162,9 @@ Consequently, the number \(\dfrac{n(n-1)}{2}\) must be divisible by \(n.\) If
 For any odd \(n,\) the required permutation \(x_{0}, x_{1}, \ldots, x_{n-1}\) is 
 easy to construct. Let \(x_{i}\equiv -i\;(\mathrm{mod}\, n)\) for all \(i\) from 
 \(0\) to \(n-1.\) Then the numbers 
-\(x_{0}-0\equiv_{n} -2\cdot 0, x_{1}-1\equiv_{n} -2\cdot 1, \ldots, x_{n-1}-(n-1)\equiv_{n} -2\cdot (n-1)\) form a complete residue system modulo \(n,\) since \(n\) and \(2\) are coprime. 
-**Problem 2** is solved.
+\(x_{0}-0\equiv_{n} -2\cdot 0,\) \(x_{1}-1\equiv_{n} -2\cdot 1,\) \(\ldots,\) 
+\(x_{n-1}-(n-1)\equiv_{n} -2\cdot (n-1)\) form a complete residue system modulo 
+\(n,\) since \(n\) and \(2\) are coprime. **Problem 2** is solved.
 
 Thus, only for odd \(n\) can the numbers be written on the tables as required in 
 **Problem 1**. In this case, at the end of each round, it is sufficient for 
