@@ -12,7 +12,7 @@ other participant of the opposite gender and visit every table. This article
 explains how to organize such speed dating and how the CP-Sat solver can be 
 useful in solving this problem.
 
-**Disclaimer!** The problem is of theoretical interest, and its solution is not 
+**Disclaimer:** The problem is of theoretical interest, and its solution is not 
 recommended for practical use.
 
 <!-- more -->
