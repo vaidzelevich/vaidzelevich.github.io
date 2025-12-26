@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.15...4.0)
+set(name ${SKBUILD_PROJECT_NAME})
+project(${name})
+find_package(pybind11 CONFIG REQUIRED)
+pybind11_add_module(${name} main.cpp)
+target_compile_features(${name} PRIVATE cxx_std_17)
+install(TARGETS ${name} DESTINATION .)
